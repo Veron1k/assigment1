@@ -57,3 +57,4 @@ country = "DEN"
 year = "1900"
 
 task_medals(file_with_data, country, year)
+
