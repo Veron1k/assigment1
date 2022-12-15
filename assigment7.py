@@ -11,13 +11,14 @@ with open(file, "r") as file:
         year = int(line_splited[9])
         year_set.add(year)
         line = file.readline()
+        country = line_splited[-4]
 
 year_list = sorted(year_set)
 for i,y in enumerate(year_list[:10],1):
     print(i, "\t", y)
 
 # 1 step
-def medals():
+def medals(file, country, year):
     country = sys.argv[3]
     with open(file, "r") as file:
         line = file.readline()
@@ -28,8 +29,7 @@ def medals():
 
             name_athlete = line_splited[1]
             counter = 1
-            yeear = line_splited[9]
-            contry = line_splited[-4]
+
 
             if country1 in line_splited:
                 # if year in line_splited:
@@ -55,6 +55,21 @@ def medals():
 country1 = input("Choose a country: ")
 year1 = input("Choose a year: ")
 command = input("Choose a command: ")
+
+medal_line = line_splited[-1][:-1]
+with open(file, "r") as file:
+        line = file.readline()
+        gold_medals = 0
+        silver_medals = 0
+        bronze_medals = 0
+        if Gold in medal_line:
+            gold_medals += 1
+        if Silver in medal_line:
+            silver_medals += 1
+        if Bronze in medal_line:
+            bronze_medals += 1
+    print(f"gold medals" {gold_medals}, "silver medals" {silver_medals}, "bronze medals" {bronze_medals})
+
 
 # 2step
 def total():
