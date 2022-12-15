@@ -1,80 +1,63 @@
 import sys
 
-
-
-year_set = set()
-file = sys.argv[1]
-with open(file, "r") as file:
-    line = file.readline()
-    while line != "":
-        line_splited = line.split("\t")
-        year = int(line_splited[9])
-        year_set.add(year)
-        line = file.readline()
-        country = line_splited[-4]
-
-year_list = sorted(year_set)
-for i,y in enumerate(year_list[:10],1):
-    print(i, "\t", y)
-
-# 1 step
-def medals(file, country, year):
-    country = sys.argv[3]
-    with open(file, "r") as file:
-        line = file.readline()
-        while line != "":
-            line_splited = line.split("\t")
-            medal_line = line_splited[-1][:-1]
-            sport_athlete = line_splited[-3]
-
-            name_athlete = line_splited[1]
-            counter = 1
-
-
-            if country1 in line_splited:
-                # if year in line_splited:
-                    while counter < 10:
-                        if medal_line != "NA":
-                        # if name_athlete not in names and medal_line != "NA":
-                            print(f'{counter}, {name_athlete} - {sport_athlete} - {medal_line}')
-                            counter += 1
-                            names.append(name_athletes)
-                        else:
-                            break
-                    medals.append(medal_line)
-            line = file.readline()
-
-        if len(names) == 0:
-            print("Try another number")
-            quit()
-        if counter < 10:
-            print("It has less then 10 medalists")
-
-        count_medals(medals, year)
-
-country1 = input("Choose a country: ")
-year1 = input("Choose a year: ")
-command = input("Choose a command: ")
-
-medal_line = line_splited[-1][:-1]
-with open(file, "r") as file:
-        line = file.readline()
-        gold_medals = 0
-        silver_medals = 0
-        bronze_medals = 0
-        if Gold in medal_line:
-            gold_medals += 1
-        if Silver in medal_line:
-            silver_medals += 1
-        if Bronze in medal_line:
-            bronze_medals += 1
-    print(f"gold medals" {gold_medals}, "silver medals" {silver_medals}, "bronze medals" {bronze_medals})
-
-
-# 2step
 def total():
     year = sys.argv[4]
-#
+
+# file_with_data = sys.argv[1]
+# # file = sys.argv[1]
+# country = sys.argv[3]
+# year = str(sys.argv[4])
+ #
 # print(sys.argv[1:])
 #
 # print("country is", country, "year is", year)
+
+
+def task_medals(file_with_data, country, year):
+    n = 0
+    medals = []
+    with open(file_with_data, "r") as file:
+        headline = file.readline()
+        line = file.readline()
+        Gold = 0
+        Silver = 0
+        Bronze = 0
+        names_of_medalist = []
+        while line != "":
+            line_splited = line.split("\t")
+            medal_line = line_splited[-1][:-1]
+            year_file = line_splited[9]
+            name = line_splited[1]
+            medal = line_splited[-1]
+            sport = line_splited[12]
+            country_file = line_splited[6]
+            country_team = line_splited[7]
+            if country == country_file or country == country_team and year == year_file:
+                if medal != "NA\n":
+                    if n < 10 and name not in names_of_medalist:
+                        print(f'{n+1} - {name} - {sport} - {medal}')
+                        names_of_medalist.append(name)
+                        n += 1
+                        if "Gold" in medal_line:
+                            Gold += 1
+                        if "Silver" in medal_line:
+                            Silver += 1
+                        if "Bronze" in medal_line:
+                            Bronze += 1
+
+            line = file.readline()
+        print(f"Gold medals", {Gold}, "Silver medals", {Silver}, "Bronze medals", {Bronze})
+
+
+
+    # year_list = sorted(year_set)
+# for i,y, in enumerate(year_list[:10],1):
+#     print(i, "\t", y, "\t" )
+
+# set cortage
+file_with_data = "data.tsv"
+country = "DEN"
+year = "1900"
+
+task_medals(file_with_data, country, year)
+
