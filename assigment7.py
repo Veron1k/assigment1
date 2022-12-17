@@ -1,14 +1,5 @@
 import sys
 
-# file_with_data = sys.argv[1]
-# # file = sys.argv[1]
-# country = sys.argv[3]
-# year = str(sys.argv[4])
-#
-# print(sys.argv[1:])
-#
-# print("country is", country, "year is", year)
-
 
 def task_medals(file_with_data, country, year):
     n = 0
@@ -47,7 +38,7 @@ def task_medals(file_with_data, country, year):
 
 
 
-    # year_list = sorted(year_set)
+# year_list = sorted(year_set)
 # for i,y, in enumerate(year_list[:10],1):
 #     print(i, "\t", y, "\t" )
 
@@ -57,4 +48,3 @@ country = "DEN"
 year = "1900"
 
 task_medals(file_with_data, country, year)
-
