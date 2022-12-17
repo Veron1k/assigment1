@@ -1,18 +1,6 @@
 import sys
 
-def total():
-    year = sys.argv[4]
-
-# file_with_data = sys.argv[1]
-# # file = sys.argv[1]
-# country = sys.argv[3]
-# year = str(sys.argv[4])
- #
-# print(sys.argv[1:])
-#
-# print("country is", country, "year is", year)
-
-
+ #step1
 def task_medals(file_with_data, country, year):
     n = 0
     medals = []
@@ -50,7 +38,7 @@ def task_medals(file_with_data, country, year):
 
 
 
-    # year_list = sorted(year_set)
+# year_list = sorted(year_set)
 # for i,y, in enumerate(year_list[:10],1):
 #     print(i, "\t", y, "\t" )
 
@@ -61,3 +49,31 @@ year = "1900"
 
 task_medals(file_with_data, country, year)
 
+#step2
+def total():
+    dict ={
+    }
+    file = sys.argv[1]
+    year = sys.argv[3]
+    with open(file, "r") as file:
+        line = file.readline()
+        while line:
+            line_splited = line.split("\t")
+            medal_line = line_splited[-1][:-1]
+            year_file = line_splited[9]
+            country_file = line_splited[6]
+            country_team = line_splited[7]
+            if country_file and country_team in line_splited:
+                if medal_line != "NA":
+                    if country_team not in dict and year_file == year:
+                        dict[country_team] = [0,0,0]
+                    elif medal_line == "Gold" and year_file == year:
+                        dict[country_team][0] += 1
+                    elif medal_line == "Silver" and year_file == year:
+                        dict[country_team][1] += 1
+                    elif medal_line == "Bronze" and year_file == year:
+                        dict[country_team][2] += 1
+            line = file.readline()
+        for country, medals in dict.items():
+            if medals != [0,0,0]:
+                print(f"{country} - gold medals {medals[0]}, silver medals {medals[1]}, bronze medals {medals[2]}")
