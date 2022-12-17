@@ -78,3 +78,16 @@ def total():
             if medals != [0,0,0]:
                 print(f"{country} - gold medals {medals[0]}, silver medals {medals[1]}, bronze medals {medals[2]}")
 
+
+def overall():
+    file = sys.argv[1]
+    countries = sys.argv[3:]
+    dict = {}
+    for country in countries:
+        with open(file, "r") as file:
+            line = file.readline()
+            while line:
+                line_splited = line.split("\t")
+                country_team = line_splited[7]
+                medal_line = line_splited[-1][:-1]
+                year_file = line_splited[9]
