@@ -91,3 +91,13 @@ def overall():
                 country_team = line_splited[7]
                 medal_line = line_splited[-1][:-1]
                 year_file = line_splited[9]
+            if year_file not in dict and country_team == country:
+                dict[year_file] = 0
+            elif medal_line != "NA" and year_file in dict and country_team == country:
+                dict[year_file] += 1
+                line = file.readline()
+                dict_keys = [int(key) for key in dict.keys()]
+                dict_values = [int(key) for key in dict.values()]
+                max_value = max(dict_values)
+                print(f'{country} - {max_value} - {dict_keys[dict_values.index(max_value)]}')
+                dict.clear()
