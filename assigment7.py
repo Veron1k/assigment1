@@ -101,3 +101,12 @@ def overall():
                 max_value = max(dict_values)
                 print(f'{country} - {max_value} - {dict_keys[dict_values.index(max_value)]}')
                 dict.clear()
+
+mode = sys.argv[2]
+
+if mode == "-total":
+    total()
+elif mode == "-medals":
+    task_medals(file_with_data, country, year)
+elif mode == "-overall":
+    overall()
