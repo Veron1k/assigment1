@@ -7,9 +7,9 @@ def task_medals(file_with_data, country, year):
     with open(file_with_data, "r") as file:
         headline = file.readline()
         line = file.readline()
-        Gold = 0
-        Silver = 0
-        Bronze = 0
+        gold = 0
+        silver = 0
+        bronze = 0
         names_of_medalist = []
         while line != "":
             line_splited = line.split("\t")
@@ -27,14 +27,14 @@ def task_medals(file_with_data, country, year):
                         names_of_medalist.append(name)
                         n += 1
                         if "Gold" in medal_line:
-                            Gold += 1
+                            gold += 1
                         if "Silver" in medal_line:
-                            Silver += 1
+                            silver += 1
                         if "Bronze" in medal_line:
-                            Bronze += 1
+                            bronze += 1
 
             line = file.readline()
-        print(f"Gold medals", {Gold}, "Silver medals", {Silver}, "Bronze medals", {Bronze})
+        print(f"Gold medals", {gold}, "Silver medals", {silver}, "Bronze medals", {bronze})
 
 
 
@@ -44,15 +44,14 @@ def task_medals(file_with_data, country, year):
 
 # set cortage
 file_with_data = "data.tsv"
-country = "DEN"
-year = "1900"
-
-task_medals(file_with_data, country, year)
+# country = "DEN"
+# year = "1900"
+#
+# task_medals(file_with_data, country, year) !!!!!!!!
 
 #step2
 def total():
-    dict ={
-    }
+    dict ={}
     file = sys.argv[1]
     year = sys.argv[3]
     with open(file, "r") as file:
@@ -79,34 +78,86 @@ def total():
                 print(f"{country} - gold medals {medals[0]}, silver medals {medals[1]}, bronze medals {medals[2]}")
 
 
-def overall():
+def overall(countries):
     file = sys.argv[1]
-    countries = sys.argv[3:]
+    # countries = sys.argv[3:],
     dict = {}
     for country in countries:
         with open(file, "r") as file:
             line = file.readline()
+            line = file.readline()
             while line:
                 line_splited = line.split("\t")
                 country_team = line_splited[7]
+                country_file = line_splited[6]
                 medal_line = line_splited[-1][:-1]
                 year_file = line_splited[9]
-            if year_file not in dict and country_team == country:
-                dict[year_file] = 0
-            elif medal_line != "NA" and year_file in dict and country_team == country:
-                dict[year_file] += 1
+                if year_file not in dict and (country_team == country or country_file == country):
+                    dict[year_file] = 0
+                elif medal_line != "NA" and year_file in dict and country_team == country:
+                    dict[year_file] += 1
                 line = file.readline()
-                dict_keys = [int(key) for key in dict.keys()]
-                dict_values = [int(key) for key in dict.values()]
-                max_value = max(dict_values)
-                print(f'{country} - {max_value} - {dict_keys[dict_values.index(max_value)]}')
-                dict.clear()
+        dict_keys = [int(key) for key in dict.keys()]
+        dict_values = [int(key) for key in dict.values()]
+        max_value = max(dict_values)
+        print(f'{country} - {max_value} - {dict_keys[dict_values.index(max_value)]}')
+        dict.clear()
+        return dict_keys, dict_values
+
+
+#step4
+def interactive():
+    file = sys.argv[1]
+    input_country = input("Enter a country: ")
+    first_year_olimp = None
+    first_place_olimp = None
+    years = []
+    golds = 0
+    silvers = 0
+    bronzes = 0
+    with open(file, "r") as file:
+        line = file.readline()
+        while line:
+            line_splited = line.split("\t")
+            country_team = line_splited[7]
+            country_file = line_splited[6]
+            medal_line = line_splited[-1][:-1]
+            # country_line2 = line_after_split[8]
+            year_file = line_splited[9]
+            city_line = line_splited[-4]
+            if (country_team == input_country or country_file == input_country) and year_file not in years:
+                years.append(year_file)
+            if (country_team == input_country or country_file == input_country) and medal_line != "NA":
+                if medal_line == "Gold" and year_file in years:
+                    golds += 1
+                elif medal_line == "Silver" and year_file in years:
+                    silvers += 1
+                elif medal_line == "Bronze" and year_file in years:
+                    bronzes += 1
+                if (country_team == input_country or country_file == input_country) and first_year_olimp is None:
+                    first_year_olimp = year_file
+                    first_place_olimp = city_line
+                elif (first_year_olimp is not None and country_team == input_country or country_file == input_country) and year_file < first_year_olimp:
+                    first_year_olimp = year_file
+                    first_place_olimp = city_line
+            line = file.readline()
+    average_gold_medals = golds / len(years)
+    average_silver_medals = silvers / len(years)
+    average_bronze_medals = bronzes / len(years)
+    print(f"First olympiade for {input_country} was in {first_year_olimp} and that was in {first_place_olimp}")
+    dict_values, dict_keys = overall([input_country])
+    min_medals = min(dict_values)
+    print(f"The fewest medals {input_country} earned in {dict_keys[dict_values.index(min_medals)]}'s year and the number was {min_medals}")
+    print(f"Average number of gold medals: {average_gold_medals}\nAverage number of silver medals: {average_silver_medals}\nAverage number of bronze medals: {average_bronze_medals}")
+
 
 mode = sys.argv[2]
 
 if mode == "-total":
-    total()
+     total()
 elif mode == "-medals":
     task_medals(file_with_data, country, year)
 elif mode == "-overall":
-    overall()
+    overall(countries)
+elif mode == "-interactive":
+    interactive()
