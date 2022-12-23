@@ -43,17 +43,15 @@ def task_medals(file_with_data, country, year):
 #     print(i, "\t", y, "\t" )
 
 # set cortage
-file_with_data = "data.tsv"
+# file_with_data = "data.tsv"
 # country = "DEN"
 # year = "1900"
 #
 # task_medals(file_with_data, country, year) !!!!!!!!
 
 #step2
-def total():
+def total(file, year):
     dict ={}
-    file = sys.argv[1]
-    year = sys.argv[3]
     with open(file, "r") as file:
         line = file.readline()
         while line:
@@ -80,7 +78,7 @@ def total():
 
 def overall(countries):
     file = sys.argv[1]
-    # countries = sys.argv[3:],
+    #countries = sys.argv[3:]
     dict = {}
     for country in countries:
         with open(file, "r") as file:
@@ -154,10 +152,12 @@ def interactive():
 mode = sys.argv[2]
 
 if mode == "-total":
-     total()
+    file = sys.argv[1]
+    year = sys.argv[3]
+    total(file, year)
 elif mode == "-medals":
-    task_medals(file_with_data, country, year)
+    task_medals(sys.argv[1], sys.argv[3])
 elif mode == "-overall":
-    overall(countries)
+    overall(sys.argv[3:])
 elif mode == "-interactive":
     interactive()
